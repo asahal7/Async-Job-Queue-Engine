@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: async-postgres
+    environment:
+      POSTGRES_DB: async_job_queue
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: async-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  api-service:
+    build:
+      context: ../../api-service
+    container_name: api-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  worker-service:
+    build:
+      context: ../../worker-service
+    container_name: worker-service
+    depends_on:
+      - postgres
+      - rabbitmq
