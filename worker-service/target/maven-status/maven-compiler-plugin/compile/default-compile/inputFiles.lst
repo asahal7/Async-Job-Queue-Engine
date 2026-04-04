@@ -1,3 +1,4 @@
 /Users/abdimaalik/Async-Job-Queue-System/worker-service/src/main/java/com/abdimaalik/worker/WorkerServiceApplication.java
 /Users/abdimaalik/Async-Job-Queue-System/worker-service/src/main/java/com/abdimaalik/worker/config/RabbitConfig.java
+/Users/abdimaalik/Async-Job-Queue-System/worker-service/src/main/java/com/abdimaalik/worker/dto/JobRequest.java
 /Users/abdimaalik/Async-Job-Queue-System/worker-service/src/main/java/com/abdimaalik/worker/listener/JobListener.java

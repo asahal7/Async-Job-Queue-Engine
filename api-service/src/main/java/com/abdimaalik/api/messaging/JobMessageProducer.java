@@ -4,6 +4,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 import com.abdimaalik.api.config.RabbitConfig;
+import com.abdimaalik.api.dto.JobRequest;
 
 @Service
 public class JobMessageProducer {
@@ -14,7 +15,7 @@ public class JobMessageProducer {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void send(String message) {
-        rabbitTemplate.convertAndSend(RabbitConfig.JOB_QUEUE, message);
+    public void send(JobRequest jobRequest) {
+        rabbitTemplate.convertAndSend(RabbitConfig.JOB_QUEUE, jobRequest);
     }
 }

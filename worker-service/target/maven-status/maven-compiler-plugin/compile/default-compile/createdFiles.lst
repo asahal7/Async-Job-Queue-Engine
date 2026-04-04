@@ -1,3 +1,4 @@
 com/abdimaalik/worker/config/RabbitConfig.class
+com/abdimaalik/worker/dto/JobRequest.class
 com/abdimaalik/worker/WorkerServiceApplication.class
 com/abdimaalik/worker/listener/JobListener.class

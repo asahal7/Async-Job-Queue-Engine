@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.abdimaalik.api.dto.JobRequest;
 import com.abdimaalik.api.messaging.JobMessageProducer;
 
 @RestController
@@ -16,8 +17,12 @@ public class JobController {
     }
 
     @GetMapping("/send")
-    public String sendMessage(@RequestParam(defaultValue = "hello from api-service") String message) {
-        jobMessageProducer.send(message);
-        return "Message sent: " + message;
+    public String sendMessage(
+            @RequestParam(defaultValue = "EMAIL") String jobType,
+            @RequestParam(defaultValue = "welcome-user-123") String payload
+    ) {
+        JobRequest jobRequest = new JobRequest(jobType, payload);
+        jobMessageProducer.send(jobRequest);
+        return "Job sent: type=" + jobType + ", payload=" + payload;
     }
 }
