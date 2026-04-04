@@ -1,4 +1,7 @@
 spring:
+  application:
+    name: worker-service
+
   rabbitmq:
     host: rabbitmq
     port: 5672

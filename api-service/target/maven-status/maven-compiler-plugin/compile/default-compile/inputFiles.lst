@@ -1,1 +1,4 @@
 /Users/abdimaalik/Async-Job-Queue-System/api-service/src/main/java/com/abdimaalik/api/ApiServiceApplication.java
+/Users/abdimaalik/Async-Job-Queue-System/api-service/src/main/java/com/abdimaalik/api/config/RabbitConfig.java
+/Users/abdimaalik/Async-Job-Queue-System/api-service/src/main/java/com/abdimaalik/api/controller/JobController.java
+/Users/abdimaalik/Async-Job-Queue-System/api-service/src/main/java/com/abdimaalik/api/messaging/JobMessageProducer.java

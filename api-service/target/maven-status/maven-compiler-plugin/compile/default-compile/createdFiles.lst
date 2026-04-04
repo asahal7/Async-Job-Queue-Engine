@@ -1,1 +1,4 @@
+com/abdimaalik/api/messaging/JobMessageProducer.class
+com/abdimaalik/api/config/RabbitConfig.class
+com/abdimaalik/api/controller/JobController.class
 com/abdimaalik/api/ApiServiceApplication.class

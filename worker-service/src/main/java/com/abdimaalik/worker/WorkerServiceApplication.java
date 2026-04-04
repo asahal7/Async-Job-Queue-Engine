@@ -1,5 +1,6 @@
 package com.abdimaalik.worker;
 
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -11,9 +12,11 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
                 HibernateJpaAutoConfiguration.class
         }
 )
+@EnableRabbit
 public class WorkerServiceApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(WorkerServiceApplication.class, args);
     }
 }
+
