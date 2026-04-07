@@ -1,16 +1,24 @@
 package com.abdimaalik.worker.listener;
 
-import java.util.Map;
-
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
+
+import com.abdimaalik.worker.config.RabbitConfig;
+import com.abdimaalik.worker.dto.JobMessage;
+import com.abdimaalik.worker.service.JobProcessingService;
 
 @Component
 public class JobListener {
 
-    @RabbitListener(queues = "job.queue")
-    public void handleMessage(Map<String, Object> jobRequest) {
-        System.out.println("Received job type: " + jobRequest.get("jobType"));
-        System.out.println("Received payload: " + jobRequest.get("payload"));
+    private final JobProcessingService jobProcessingService;
+
+    public JobListener(JobProcessingService jobProcessingService) {
+        this.jobProcessingService = jobProcessingService;
+    }
+
+    @RabbitListener(queues = RabbitConfig.JOB_QUEUE)
+    public void handleMessage(JobMessage message) {
+        System.out.println("Worker received job: " + message.getJobId());
+        jobProcessingService.process(message);
     }
 }

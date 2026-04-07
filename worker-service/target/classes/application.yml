@@ -7,3 +7,13 @@ spring:
     port: 5672
     username: guest
     password: guest
+
+  datasource:
+    url: jdbc:postgresql://postgres:5432/async_job_queue
+    username: postgres
+    password: postgres
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
