@@ -27,15 +27,23 @@ public class Job {
     @Column(nullable = false)
     private JobStatus status;
 
+    private String errorMessage;
+
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    private String errorMessage;
+    public Job() {
+    }
 
-    protected Job() {
+    public Job(UUID id, String type, String payload, JobStatus status, LocalDateTime createdAt) {
+        this.id = id;
+        this.type = type;
+        this.payload = payload;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.updatedAt = createdAt;
     }
 
     public UUID getId() {
@@ -54,6 +62,10 @@ public class Job {
         return status;
     }
 
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -62,24 +74,15 @@ public class Job {
         return updatedAt;
     }
 
-    public String getErrorMessage() {
-        return errorMessage;
+    public void setStatus(JobStatus status) {
+        this.status = status;
     }
 
-    public void markProcessing() {
-        this.status = JobStatus.PROCESSING;
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    public void markCompleted() {
-        this.status = JobStatus.COMPLETED;
-        this.updatedAt = LocalDateTime.now();
-        this.errorMessage = null;
-    }
-
-    public void markFailed(String errorMessage) {
-        this.status = JobStatus.FAILED;
-        this.updatedAt = LocalDateTime.now();
+    public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

@@ -1,9 +1,12 @@
 package com.abdimaalik.worker.service;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.abdimaalik.worker.domain.Job;
+import com.abdimaalik.worker.domain.JobStatus;
 import com.abdimaalik.worker.dto.JobMessage;
 import com.abdimaalik.worker.repository.JobRepository;
 
@@ -16,29 +19,42 @@ public class JobProcessingService {
         this.jobRepository = jobRepository;
     }
 
-    @Transactional
     public void process(JobMessage message) {
-        System.out.println("Looking up job: " + message.getJobId());
+        UUID jobId = message.getJobId();
 
-        Job job = jobRepository.findById(message.getJobId())
-                .orElseThrow(() -> new RuntimeException("Job not found: " + message.getJobId()));
+        System.out.println("Looking up job: " + jobId);
+
+        Job job = jobRepository.findById(jobId)
+                .orElseThrow(() -> new RuntimeException("Job not found: " + jobId));
 
         try {
-            job.markProcessing();
+            job.setStatus(JobStatus.PROCESSING);
+            job.setUpdatedAt(LocalDateTime.now());
             jobRepository.save(job);
-            System.out.println("Marked PROCESSING: " + job.getId());
+            System.out.println("Marked PROCESSING: " + jobId);
 
-            Thread.sleep(2000);
+            simulateWork(message);
 
-            job.markCompleted();
+            job.setStatus(JobStatus.COMPLETED);
+            job.setErrorMessage(null);
+            job.setUpdatedAt(LocalDateTime.now());
             jobRepository.save(job);
-            System.out.println("Marked COMPLETED: " + job.getId());
+            System.out.println("Marked COMPLETED: " + jobId);
 
         } catch (Exception e) {
-            job.markFailed(e.getMessage());
+            job.setStatus(JobStatus.FAILED);
+            job.setErrorMessage(e.getMessage());
+            job.setUpdatedAt(LocalDateTime.now());
             jobRepository.save(job);
-            System.out.println("Marked FAILED: " + job.getId());
-            throw new RuntimeException("Job processing failed", e);
+            System.out.println("Marked FAILED: " + jobId + " | reason: " + e.getMessage());
+        }
+    }
+
+    private void simulateWork(JobMessage message) throws InterruptedException {
+        Thread.sleep(3000);
+
+        if ("FAIL".equalsIgnoreCase(message.getPayload())) {
+            throw new RuntimeException("Simulated job failure");
         }
     }
 }
