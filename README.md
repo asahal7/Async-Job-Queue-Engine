@@ -33,7 +33,7 @@ Two-service architecture communicating via RabbitMQ:
 Every job transitions through a formal state machine:
 
 ```
-PENDING ──▶ PROCESSING ──▶ COMPLETE
+PENDING ──▶ PROCESSING ──▶ COMPLETED
                 │
                 └──────────▶ FAILED
 ```
@@ -74,7 +74,7 @@ State is persisted in PostgreSQL, ensuring durability across service restarts.
 ```
 git clone https://github.com/asahal7/Async-Job-Queue-Engine.git
 cd Async-Job-Queue-Engine
-docker-compose up --build
+docker-compose -f infrastructure/docker/docker-compose.yml up --build
 ```
 
 All services and infrastructure spin up via Docker Compose. No manual database or broker setup required.
@@ -88,14 +88,24 @@ All services and infrastructure spin up via Docker Compose. No manual database o
 | POST | `/jobs` | Submit a new job |
 | GET | `/jobs/{id}` | Get job status by ID |
 
+**POST `/jobs` request body:**
+```json
+{
+  "type": "your-job-type",
+  "payload": "your-job-payload"
+}
+```
+
 ---
 
 ## Project Structure
 
 ```
-├── api-service/          # Job submission and REST API
-├── worker-service/       # Job processing and queue listeners
-└── docker-compose.yml    # Full local orchestration
+├── api-service/                    # Job submission and REST API
+├── worker-service/                 # Job processing and queue listeners
+└── infrastructure/
+    └── docker/
+        └── docker-compose.yml      # Full local orchestration
 ```
 
 ---
